@@ -3,9 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
     <title>PackCrop</title>
   </head>
   <body>
+    <div class="app">
+      <header class="header">
+        <h1>PackCrop</h1>
+        <p class="subtitle">Batch photo cropping tool</p>
+      </header>
+      <main class="main">
+        <div class="controls">
+          <input type="file" id="fileInput" multiple accept="image/*" />
+          <button id="cropButton" disabled>Crop</button>
+        </div>
+
+        <div class="preview">
+          <div class="preview-placeholder">Select images to preview</div>
+        </div>
+      </main>
+      <footer class="footer">
+        <span id="statusText">Ready</span>
+      </footer>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>
