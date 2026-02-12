@@ -29,6 +29,18 @@ fileInput.addEventListener('change', () => {
   }
 })
 
+function showPreview(image) {
+  previewImage.src = image.url
+  previewImage.style.display = 'block'
+  previewPlaceholder.style.display = 'none'
+}
+
+function clearPreview() {
+  previewImage.src = ''
+  previewImage.style.display = 'none'
+  previewPlaceholder.style.display = 'block'
+}
+
 cropButton.addEventListener('click', () => {
   alert('Crop feature is not implemented yet')
 })
