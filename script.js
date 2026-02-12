@@ -1,15 +1,30 @@
 const fileInput = document.getElementById('fileInput')
 const cropButton = document.getElementById('cropButton')
 const statusText = document.getElementById('statusText')
+const previewImage = document.getElementById('previewImage')
+const previewPlaceholder = document.getElementById('previewPlaceholder')
+
+let images = []
 
 fileInput.addEventListener('change', () => {
-  const files = fileInput.files
+  const files = Array.from(fileInput.files)
 
-  if (files.length > 0) {
-    statusText.textContent = `${files.length} file(s) selected`
+  const imageFiles = files.filter((file) => file.type.startsWith('image/'))
+
+  images = imageFiles.map((file) => {
+    return {
+      file,
+      url: URL.createObjectURL(file),
+    }
+  })
+
+  if (images.length > 0) {
+    showPreview(images[0])
+    statusText.textContent = `Loaded ${images.length} image(s)`
     cropButton.disabled = false
   } else {
-    statusText.textContent = 'Ready'
+    clearPreview()
+    statusText.textContent = 'No images selected'
     cropButton.disabled = true
   }
 })
