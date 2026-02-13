@@ -1,10 +1,20 @@
 const fileInput = document.getElementById('fileInput')
 const cropButton = document.getElementById('cropButton')
 const statusText = document.getElementById('statusText')
-const previewImage = document.getElementById('previewImage')
+const previewCanvas = document.getElementById('previewCanvas')
 const previewPlaceholder = document.getElementById('previewPlaceholder')
 
+const ctx = previewCanvas.getContext('2d')
+
 let images = []
+let currentImage = null
+
+let cropRect = {
+  x: 0,
+  y: 0,
+  width: 200,
+  height: 200,
+}
 
 fileInput.addEventListener('change', () => {
   const files = Array.from(fileInput.files)
