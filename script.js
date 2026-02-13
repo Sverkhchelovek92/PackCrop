@@ -16,20 +16,32 @@ let cropRect = {
   height: 200,
 }
 
-fileInput.addEventListener('change', () => {
+fileInput.addEventListener('change', async () => {
   const files = Array.from(fileInput.files)
 
   const imageFiles = files.filter((file) => file.type.startsWith('image/'))
 
-  images = imageFiles.map((file) => {
-    return {
-      file,
-      url: URL.createObjectURL(file),
-    }
-  })
+  images = []
+
+  for (const file of imageFiles) {
+    const url = URL.createObjectURL(file)
+    const img = new Image()
+    img.src = url
+    await img.decode()
+
+    images.push({ file, url, img })
+  }
+
+  // images = imageFiles.map((file) => {
+  //   return {
+  //     file,
+  //     url: URL.createObjectURL(file),
+  //   }
+  // })
 
   if (images.length > 0) {
     showPreview(images[0])
+    setupCanvasForImage(currentImage.img)
     statusText.textContent = `Loaded ${images.length} image(s)`
     cropButton.disabled = false
   } else {
@@ -38,6 +50,8 @@ fileInput.addEventListener('change', () => {
     cropButton.disabled = true
   }
 })
+
+function setupCanvasForImage(img) {}
 
 function showPreview(image) {
   previewImage.src = image.url
