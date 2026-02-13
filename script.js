@@ -51,7 +51,22 @@ fileInput.addEventListener('change', async () => {
   }
 })
 
-function setupCanvasForImage(img) {}
+function setupCanvasForImage(img) {
+  previewCanvas.width = img.width
+  previewCanvas.height = img.height
+
+  cropRect.width = Math.floor(img.width * 0.6)
+  cropRect.height = Math.floor(img.height * 0.6)
+  cropRect.x = Math.floor((img.width - cropRect.width) / 2)
+  cropRect.y = Math.floor((img.height - cropRect.height) / 2)
+
+  previewCanvas.style.display = 'block'
+  previewPlaceholder.style.display = 'none'
+
+  draw()
+}
+
+function draw() {}
 
 function showPreview(image) {
   previewImage.src = image.url
