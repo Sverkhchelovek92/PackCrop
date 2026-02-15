@@ -85,16 +85,17 @@ function draw() {
   ctx.strokeRect(cropRect.x, cropRect.y, cropRect.width, cropRect.height)
 }
 
-function showPreview(image) {
-  previewImage.src = image.url
-  previewImage.style.display = 'block'
-  previewPlaceholder.style.display = 'none'
-}
+// function showPreview(image) {
+//   previewImage.src = image.url
+//   previewImage.style.display = 'block'
+//   previewPlaceholder.style.display = 'none'
+// }
 
 function clearPreview() {
-  previewImage.src = ''
+  ctx.clearRect(0, 0, previewCanvas.width, previewCanvas.height)
   previewImage.style.display = 'none'
   previewPlaceholder.style.display = 'block'
+  currentImage = null
 }
 
 cropButton.addEventListener('click', () => {
