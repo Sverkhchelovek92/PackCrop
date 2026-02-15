@@ -40,7 +40,7 @@ fileInput.addEventListener('change', async () => {
   // })
 
   if (images.length > 0) {
-    showPreview(images[0])
+    currentImage = images[0]
     setupCanvasForImage(currentImage.img)
     statusText.textContent = `Loaded ${images.length} image(s)`
     cropButton.disabled = false
