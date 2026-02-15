@@ -66,7 +66,24 @@ function setupCanvasForImage(img) {
   draw()
 }
 
-function draw() {}
+function draw() {
+  if (!currentImage) return
+
+  const img = currentImage.img
+
+  ctx.clearRect(0, 0, previewCanvas.width, previewCanvas.height)
+
+  ctx.drawImage(img, 0, 0)
+
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'
+  ctx.fillRect(0, 0, previewCanvas.width, previewCanvas.height)
+
+  ctx.clearRect(cropRect.x, cropRect.y, cropRect.width, cropRect.height)
+
+  ctx.strokeStyle = '#4f5dff'
+  ctx.lineWidth = 3
+  ctx.strokeRect(cropRect.x, cropRect.y, cropRect.width, cropRect.height)
+}
 
 function showPreview(image) {
   previewImage.src = image.url
