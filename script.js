@@ -16,6 +16,10 @@ let cropRect = {
   height: 200,
 }
 
+let isDragging = false
+let dragOffsetX = 0
+let dragOffsetY = 0
+
 fileInput.addEventListener('change', async () => {
   const files = Array.from(fileInput.files)
 
