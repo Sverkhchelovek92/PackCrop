@@ -97,6 +97,52 @@ function getMousePos(event) {
   }
 }
 
+// Dragging Logic
+
+previewCanvas.addEventListener('mousedown', (e) => {
+  const mouse = getMousePos(e)
+
+  const inside =
+    mouse.x >= cropRect.x &&
+    mouse.x <= cropRect.x + cropRect.width &&
+    mouse.y >= cropRect.y &&
+    mouse.y <= cropRect.y + cropRect.height
+
+  if (inside) {
+    isDragging = true
+    dragOffsetX = mouse.x - cropRect.x
+    dragOffsetY = mouse.y - cropRect.y
+  }
+})
+
+previewCanvas.addEventListener('mousemove', (e) => {
+  if (!isDragging) return
+
+  const mouse = getMousePos(e)
+
+  cropRect.x = mouse.x - dragOffsetX
+  cropRect.y = mouse.y - dragOffsetY
+
+  cropRect.x = Math.max(
+    0,
+    Math.min(cropRect.x, previewCanvas.width - cropRect.width),
+  )
+  cropRect.y = Math.max(
+    0,
+    Math.min(cropRect.y, previewCanvas.height - cropRect.height),
+  )
+
+  draw()
+})
+
+previewCanvas.addEventListener('mouseup', (e) => {
+  isDragging = false
+})
+
+previewCanvas.addEventListener('mouseleave', (e) => {
+  isDragging = false
+})
+
 cropButton.addEventListener('click', () => {
   alert('Crop feature is not implemented yet')
 })
