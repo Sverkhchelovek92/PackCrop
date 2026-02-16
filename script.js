@@ -36,13 +36,6 @@ fileInput.addEventListener('change', async () => {
     images.push({ file, url, img })
   }
 
-  // images = imageFiles.map((file) => {
-  //   return {
-  //     file,
-  //     url: URL.createObjectURL(file),
-  //   }
-  // })
-
   if (images.length > 0) {
     currentImage = images[0]
     setupCanvasForImage(currentImage.img)
@@ -89,17 +82,19 @@ function draw() {
   ctx.strokeRect(cropRect.x, cropRect.y, cropRect.width, cropRect.height)
 }
 
-// function showPreview(image) {
-//   previewImage.src = image.url
-//   previewImage.style.display = 'block'
-//   previewPlaceholder.style.display = 'none'
-// }
-
 function clearPreview() {
   ctx.clearRect(0, 0, previewCanvas.width, previewCanvas.height)
   previewImage.style.display = 'none'
   previewPlaceholder.style.display = 'block'
   currentImage = null
+}
+
+function getMousePos(event) {
+  const rect = previewCanvas.getBoundingClientRect()
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top,
+  }
 }
 
 cropButton.addEventListener('click', () => {
