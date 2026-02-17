@@ -97,7 +97,7 @@ function draw() {
 
 function clearPreview() {
   ctx.clearRect(0, 0, previewCanvas.width, previewCanvas.height)
-  previewImage.style.display = 'none'
+  previewCanvas.style.display = 'none'
   previewPlaceholder.style.display = 'block'
   currentImage = null
 }
@@ -115,6 +115,17 @@ function getMousePos(event) {
 previewCanvas.addEventListener('mousedown', (e) => {
   const mouse = getMousePos(e)
 
+  const onHandle =
+    mouse.x >= cropRect.x + cropRect.width - HANDLE_SIZE &&
+    mouse.x <= cropRect.x + cropRect.width &&
+    mouse.y >= cropRect.y + cropRect.height - HANDLE_SIZE &&
+    mouse.y <= cropRect.y + cropRect.height
+
+  if (onHandle) {
+    isResizing = true
+    return
+  }
+
   const inside =
     mouse.x >= cropRect.x &&
     mouse.x <= cropRect.x + cropRect.width &&
@@ -126,37 +137,10 @@ previewCanvas.addEventListener('mousedown', (e) => {
     dragOffsetX = mouse.x - cropRect.x
     dragOffsetY = mouse.y - cropRect.y
   }
-
-  const onHandle =
-    mouse.x >= cropRect.x + cropRect.width - HANDLE_SIZE &&
-    mouse.x <= cropRect.x + cropRect.width &&
-    mouse.y >= cropRect.y + cropRect.height - HANDLE_SIZE &&
-    mouse.y <= cropRect.y + cropRect.height
-
-  if (onHandle) {
-    isResizing = true
-    return
-  }
 })
 
 previewCanvas.addEventListener('mousemove', (e) => {
   const mouse = getMousePos(e)
-
-  if (isDragging) {
-    cropRect.x = mouse.x - dragOffsetX
-    cropRect.y = mouse.y - dragOffsetY
-
-    cropRect.x = Math.max(
-      0,
-      Math.min(cropRect.x, previewCanvas.width - cropRect.width),
-    )
-    cropRect.y = Math.max(
-      0,
-      Math.min(cropRect.y, previewCanvas.height - cropRect.height),
-    )
-
-    draw()
-  }
 
   if (isResizing) {
     cropRect.width = mouse.x - cropRect.x
@@ -169,6 +153,20 @@ previewCanvas.addEventListener('mousemove', (e) => {
     cropRect.height = Math.min(
       cropRect.height,
       previewCanvas.height - cropRect.y,
+    )
+
+    draw()
+  } else if (isDragging) {
+    cropRect.x = mouse.x - dragOffsetX
+    cropRect.y = mouse.y - dragOffsetY
+
+    cropRect.x = Math.max(
+      0,
+      Math.min(cropRect.x, previewCanvas.width - cropRect.width),
+    )
+    cropRect.y = Math.max(
+      0,
+      Math.min(cropRect.y, previewCanvas.height - cropRect.height),
     )
 
     draw()
