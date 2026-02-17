@@ -177,10 +177,12 @@ previewCanvas.addEventListener('mousemove', (e) => {
 
 previewCanvas.addEventListener('mouseup', (e) => {
   isDragging = false
+  isResizing = false
 })
 
 previewCanvas.addEventListener('mouseleave', (e) => {
   isDragging = false
+  isResizing = false
 })
 
 cropButton.addEventListener('click', () => {
