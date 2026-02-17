@@ -17,8 +17,13 @@ let cropRect = {
 }
 
 let isDragging = false
+let isResizing = false
+
 let dragOffsetX = 0
 let dragOffsetY = 0
+
+const HANDLE_SIZE = 12
+const MIN_SIZE = 50
 
 fileInput.addEventListener('change', async () => {
   const files = Array.from(fileInput.files)
@@ -80,6 +85,14 @@ function draw() {
   ctx.strokeStyle = '#4f5dff'
   ctx.lineWidth = 3
   ctx.strokeRect(cropRect.x, cropRect.y, cropRect.width, cropRect.height)
+
+  ctx.fillStyle = '#4f5dff'
+  ctx.fillRect(
+    cropRect.x + cropRect.width - HANDLE_SIZE,
+    cropRect.y + cropRect.height - HANDLE_SIZE,
+    HANDLE_SIZE,
+    HANDLE_SIZE,
+  )
 }
 
 function clearPreview() {
