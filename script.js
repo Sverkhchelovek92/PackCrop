@@ -16,11 +16,9 @@ let cropRect = {
   height: 200,
 }
 
-// let isDragging = false
-let isResizing = false
+// let isResizing = false
 
-// let dragOffsetX = 0
-// let dragOffsetY = 0
+let resizeMode = null
 
 const HANDLE_SIZE = 12
 const MIN_SIZE = 50
@@ -119,56 +117,118 @@ function getMousePos(event) {
 previewCanvas.addEventListener('mousedown', (e) => {
   const mouse = getMousePos(e)
 
-  const onHandle =
-    mouse.x >= cropRect.x + cropRect.width - HANDLE_SIZE &&
-    mouse.x <= cropRect.x + cropRect.width &&
+  const nearTop =
+    mouse.y >= cropRect.y - HANDLE_SIZE &&
+    mouse.y <= cropRect.y + HANDLE_SIZE &&
+    mouse.x >= cropRect.x &&
+    mouse.x <= cropRect.x + cropRect.width
+
+  const nearBottom =
     mouse.y >= cropRect.y + cropRect.height - HANDLE_SIZE &&
+    mouse.y <= cropRect.y + cropRect.height + HANDLE_SIZE &&
+    mouse.x >= cropRect.x &&
+    mouse.x <= cropRect.x + cropRect.width
+
+  const nearLeft =
+    mouse.x >= cropRect.x - HANDLE_SIZE &&
+    mouse.x <= cropRect.x + HANDLE_SIZE &&
+    mouse.y >= cropRect.y &&
     mouse.y <= cropRect.y + cropRect.height
 
-  if (onHandle) {
-    isResizing = true
-  }
+  const nearRight =
+    mouse.x >= cropRect.x + cropRect.width - HANDLE_SIZE &&
+    mouse.x <= cropRect.x + cropRect.width + HANDLE_SIZE &&
+    mouse.y >= cropRect.y &&
+    mouse.y <= cropRect.y + cropRect.height
 
-  console.log(onHandle)
-
-  // const inside =
-  //   mouse.x >= cropRect.x &&
-  //   mouse.x <= cropRect.x + cropRect.width &&
-  //   mouse.y >= cropRect.y &&
-  //   mouse.y <= cropRect.y + cropRect.height
-
-  // if (inside) {
-  //   isDragging = true
-  //   dragOffsetX = mouse.x - cropRect.x
-  //   dragOffsetY = mouse.y - cropRect.y
-  // }
+  if (nearTop) resizeMode = 'top'
+  else if (nearBottom) resizeMode = 'bottom'
+  else if (nearLeft) resizeMode = 'left'
+  else if (nearRight) resizeMode = 'right'
 })
 
 previewCanvas.addEventListener('mousemove', (e) => {
-  if (!isResizing) return
+  // if (!isResizing) return
 
   const mouse = getMousePos(e)
 
-  cropRect.width = mouse.x - cropRect.x
-  cropRect.height = mouse.y - cropRect.y
+  previewCanvas.style.cursor = 'default'
 
-  cropRect.width = Math.max(MIN_SIZE, cropRect.width)
-  cropRect.height = Math.max(MIN_SIZE, cropRect.height)
+  const nearTop =
+    mouse.y >= cropRect.y - HANDLE_SIZE &&
+    mouse.y <= cropRect.y + HANDLE_SIZE &&
+    mouse.x >= cropRect.x &&
+    mouse.x <= cropRect.x + cropRect.width
 
-  cropRect.width = Math.min(cropRect.width, previewCanvas.width - cropRect.x)
-  cropRect.height = Math.min(cropRect.height, previewCanvas.height - cropRect.y)
+  const nearBottom =
+    mouse.y >= cropRect.y + cropRect.height - HANDLE_SIZE &&
+    mouse.y <= cropRect.y + cropRect.height + HANDLE_SIZE &&
+    mouse.x >= cropRect.x &&
+    mouse.x <= cropRect.x + cropRect.width
+
+  const nearLeft =
+    mouse.x >= cropRect.x - HANDLE_SIZE &&
+    mouse.x <= cropRect.x + HANDLE_SIZE &&
+    mouse.y >= cropRect.y &&
+    mouse.y <= cropRect.y + cropRect.height
+
+  const nearRight =
+    mouse.x >= cropRect.x + cropRect.width - HANDLE_SIZE &&
+    mouse.x <= cropRect.x + cropRect.width + HANDLE_SIZE &&
+    mouse.y >= cropRect.y &&
+    mouse.y <= cropRect.y + cropRect.height
+
+  if (nearTop || nearBottom) {
+    previewCanvas.style.cursor = 'ns-resize'
+  } else if (nearLeft || nearRight) {
+    previewCanvas.style.cursor = 'ew-resize'
+  }
+
+  if (!resizeMode) return
+
+  if (resizeMode === 'top') {
+    const newY = Math.max(
+      0,
+      Math.min(mouse.y, cropRect.y + cropRect.height - MIN_SIZE),
+    )
+    cropRect.height += cropRect.y - newY
+    cropRect.y = newY
+  }
+
+  if (resizeMode === 'bottom') {
+    const newHeight = Math.min(
+      previewCanvas.height - cropRect.y,
+      Math.max(MIN_SIZE, mouse.y - cropRect.y),
+    )
+    cropRect.height = newHeight
+  }
+
+  if (resizeMode === 'left') {
+    const newX = Math.max(
+      0,
+      Math.min(mouse.x, cropRect.x + cropRect.width - MIN_SIZE),
+    )
+    cropRect.width += cropRect.x - newX
+    cropRect.x = newX
+  }
+
+  if (resizeMode === 'right') {
+    const newWidth = Math.min(
+      previewCanvas.width - cropRect.x,
+      Math.max(MIN_SIZE, mouse.x - cropRect.x),
+    )
+    cropRect.width = newWidth
+  }
 
   draw()
 })
 
 previewCanvas.addEventListener('mouseup', (e) => {
-  // isDragging = false
-  isResizing = false
+  resizeMode = null
 })
 
 previewCanvas.addEventListener('mouseleave', (e) => {
-  // isDragging = false
-  isResizing = false
+  resizeMode = null
 })
 
 cropButton.addEventListener('click', () => {
