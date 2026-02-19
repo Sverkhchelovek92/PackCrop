@@ -78,19 +78,23 @@ function draw() {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'
   ctx.fillRect(0, 0, previewCanvas.width, previewCanvas.height)
 
-  ctx.clearRect(cropRect.x, cropRect.y, cropRect.width, cropRect.height)
-
-  ctx.strokeStyle = '#4f5dff'
-  ctx.lineWidth = 3
-  ctx.strokeRect(cropRect.x, cropRect.y, cropRect.width, cropRect.height)
-
-  ctx.fillStyle = '#4f5dff'
-  ctx.fillRect(
-    cropRect.x + cropRect.width - HANDLE_SIZE,
-    cropRect.y + cropRect.height - HANDLE_SIZE,
-    HANDLE_SIZE,
-    HANDLE_SIZE,
+  ctx.drawImage(
+    img,
+    cropRect.x,
+    cropRect.y,
+    cropRect.width,
+    cropRect.height,
+    cropRect.x,
+    cropRect.y,
+    cropRect.width,
+    cropRect.height,
   )
+
+  ctx.setLineDash([8, 6])
+  ctx.strokeStyle = '#ffffff'
+  ctx.lineWidth = 2
+  ctx.strokeRect(cropRect.x, cropRect.y, cropRect.width, cropRect.height)
+  ctx.setLineDash([])
 }
 
 function clearPreview() {
