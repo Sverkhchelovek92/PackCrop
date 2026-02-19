@@ -231,6 +231,39 @@ previewCanvas.addEventListener('mouseleave', (e) => {
   resizeMode = null
 })
 
-cropButton.addEventListener('click', () => {
-  alert('Crop feature is not implemented yet')
+cropButton.addEventListener('click', async () => {
+  if (!images.length) return
+
+  for (const item of images) {
+    const { img, file } = item
+
+    const tempCanvas = document.createElement('canvas')
+    const tempCtx = tempCanvas.getContext('2d')
+
+    tempCanvas.width = cropRect.width
+    tempCanvas.height = cropRect.height
+
+    tempCtx.drawImage(
+      img,
+      cropRect.x,
+      cropRect.y,
+      cropRect.width,
+      cropRect.height,
+      0,
+      0,
+      cropRect.width,
+      cropRect.height,
+    )
+
+    const blob = await new Promise((resolve) =>
+      tempCanvas.toBlob(resolve, 'image/png'),
+    )
+
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = `cropped_${file.name}`
+    link.click()
+  }
+
+  statusText.textContent = `Cropped ${images.length} image(s)`
 })
