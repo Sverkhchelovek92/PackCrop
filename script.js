@@ -16,8 +16,6 @@ let cropRect = {
   height: 200,
 }
 
-// let isResizing = false
-
 let resizeMode = null
 
 const HANDLE_SIZE = 12
@@ -152,8 +150,6 @@ previewCanvas.addEventListener('mousedown', (e) => {
 })
 
 previewCanvas.addEventListener('mousemove', (e) => {
-  // if (!isResizing) return
-
   const mouse = getMousePos(e)
 
   previewCanvas.style.cursor = 'default'
@@ -268,11 +264,6 @@ cropButton.addEventListener('click', async () => {
     )
 
     zip.file(`cropped_${file.name}`, blob)
-
-    // const link = document.createElement('a')
-    // link.href = URL.createObjectURL(blob)
-    // link.download = `cropped_${file.name}`
-    // link.click()
   }
 
   const zipBlob = await zip.generateAsync({ type: 'blob' })
@@ -282,5 +273,5 @@ cropButton.addEventListener('click', async () => {
   link.download = 'packcrop_images.zip'
   link.click()
 
-  statusText.textContent = `Cropped ${images.length} image(s)`
+  statusText.textContent = `Downloaded ${images.length} images as ZIP`
 })
