@@ -238,6 +238,10 @@ previewCanvas.addEventListener('mouseleave', (e) => {
 cropButton.addEventListener('click', async () => {
   if (!images.length) return
 
+  statusText.textContent = 'Processing...'
+
+  const zip = new JSZip()
+
   for (const item of images) {
     const { img, file } = item
 
@@ -263,11 +267,20 @@ cropButton.addEventListener('click', async () => {
       tempCanvas.toBlob(resolve, 'image/png'),
     )
 
-    const link = document.createElement('a')
-    link.href = URL.createObjectURL(blob)
-    link.download = `cropped_${file.name}`
-    link.click()
+    zip.file(`cropped_${file.name}`, blob)
+
+    // const link = document.createElement('a')
+    // link.href = URL.createObjectURL(blob)
+    // link.download = `cropped_${file.name}`
+    // link.click()
   }
+
+  const zipBlob = await zip.generateAsync({ type: 'blob' })
+
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(zipBlob)
+  link.download = 'packcrop_images.zip'
+  link.click()
 
   statusText.textContent = `Cropped ${images.length} image(s)`
 })
