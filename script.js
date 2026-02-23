@@ -42,6 +42,7 @@ fileInput.addEventListener('change', async () => {
   if (images.length > 0) {
     currentImage = images[0]
     setupCanvasForImage(currentImage.img)
+    renderSidebar()
     statusText.textContent = `Loaded ${images.length} image(s)`
     cropButton.disabled = false
   } else {
@@ -114,6 +115,27 @@ function getMousePos(event) {
     x: (event.clientX - rect.left) * scaleX,
     y: (event.clientY - rect.top) * scaleY,
   }
+}
+
+function renderSidebar() {
+  sidebar.innerHTML = ''
+
+  images.forEach((item, index) => {
+    const thumb = document.createElement('img')
+    thumb.src = item.url
+
+    if (item === currentImage) {
+      thumb.classList.add('active')
+    }
+
+    thumb.addEventListener('click', () => {
+      currentImage = item
+      setupCanvasForImage(item.img)
+      renderSidebar()
+    })
+
+    sidebar.appendChild(thumb)
+  })
 }
 
 // Resizing Logic
