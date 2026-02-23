@@ -4,6 +4,8 @@ const statusText = document.getElementById('statusText')
 const previewCanvas = document.getElementById('previewCanvas')
 const previewPlaceholder = document.getElementById('previewPlaceholder')
 
+const sidebar = document.getElementById('sidebar')
+
 const ctx = previewCanvas.getContext('2d')
 
 let images = []
