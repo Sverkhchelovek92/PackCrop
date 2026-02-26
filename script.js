@@ -4,6 +4,10 @@ const statusText = document.getElementById('statusText')
 const previewCanvas = document.getElementById('previewCanvas')
 const previewPlaceholder = document.getElementById('previewPlaceholder')
 
+const exportModal = document.getElementById('exportModal')
+const cancelExport = document.getElementById('cancelExport')
+const confirmExport = document.getElementById('confirmExport')
+
 const sidebar = document.getElementById('sidebar')
 
 const ctx = previewCanvas.getContext('2d')
@@ -257,47 +261,50 @@ previewCanvas.addEventListener('mouseleave', (e) => {
 
 cropButton.addEventListener('click', async () => {
   if (!images.length) return
+  exportModal.classList.remove('hidden')
 
-  statusText.textContent = 'Processing...'
+  // statusText.textContent = 'Processing...'
 
-  const zip = new JSZip()
+  // const zip = new JSZip()
 
-  for (const item of images) {
-    const { img, file } = item
+  // for (const item of images) {
+  //   const { img, file } = item
 
-    const tempCanvas = document.createElement('canvas')
-    const tempCtx = tempCanvas.getContext('2d')
+  //   exportModal.classList.remove('hidden')
 
-    tempCanvas.width = cropRect.width
-    tempCanvas.height = cropRect.height
+  //   const tempCanvas = document.createElement('canvas')
+  //   const tempCtx = tempCanvas.getContext('2d')
 
-    tempCtx.drawImage(
-      img,
-      cropRect.x,
-      cropRect.y,
-      cropRect.width,
-      cropRect.height,
-      0,
-      0,
-      cropRect.width,
-      cropRect.height,
-    )
+  //   tempCanvas.width = cropRect.width
+  //   tempCanvas.height = cropRect.height
 
-    const blob = await new Promise((resolve) =>
-      tempCanvas.toBlob(resolve, 'image/png'),
-    )
+  //   tempCtx.drawImage(
+  //     img,
+  //     cropRect.x,
+  //     cropRect.y,
+  //     cropRect.width,
+  //     cropRect.height,
+  //     0,
+  //     0,
+  //     cropRect.width,
+  //     cropRect.height,
+  //   )
 
-    zip.file(`cropped_${file.name}`, blob)
-  }
+  //   const blob = await new Promise((resolve) =>
+  //     tempCanvas.toBlob(resolve, 'image/png'),
+  //   )
 
-  const zipBlob = await zip.generateAsync({ type: 'blob' })
+  //   zip.file(`cropped_${file.name}`, blob)
+  // }
 
-  const link = document.createElement('a')
-  link.href = URL.createObjectURL(zipBlob)
-  link.download = 'packcrop_images.zip'
-  link.click()
+  // const zipBlob = await zip.generateAsync({ type: 'blob' })
 
-  statusText.textContent = `Downloaded ${images.length} images as ZIP`
+  // const link = document.createElement('a')
+  // link.href = URL.createObjectURL(zipBlob)
+  // link.download = 'packcrop_images.zip'
+  // link.click()
+
+  // statusText.textContent = `Downloaded ${images.length} images as ZIP`
 })
 
 document.querySelector('.current-year').textContent = new Date().getFullYear()
