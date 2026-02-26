@@ -10,15 +10,22 @@
     <header class="header">
       <h1>PackCrop</h1>
       <p class="subtitle">Batch photo cropping tool</p>
+      <div class="controls">
+        <button id="uploadButton">Upload Images</button>
+        <input
+          type="file"
+          id="fileInput"
+          class="file-input-btn"
+          multiple
+          accept="image/*"
+          hidden
+        />
+        <button id="cropButton" disabled>Crop</button>
+      </div>
     </header>
     <div class="app">
       <div id="sidebar" class="sidebar"></div>
       <main class="main">
-        <div class="controls">
-          <input type="file" id="fileInput" multiple accept="image/*" />
-          <button id="cropButton" disabled>Crop</button>
-        </div>
-
         <div class="preview">
           <div class="preview-placeholder" id="previewPlaceholder">
             Select images to preview

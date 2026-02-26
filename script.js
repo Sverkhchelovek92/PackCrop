@@ -1,3 +1,4 @@
+const uploadButton = document.getElementById('uploadButton')
 const fileInput = document.getElementById('fileInput')
 const cropButton = document.getElementById('cropButton')
 const statusText = document.getElementById('statusText')
@@ -257,6 +258,10 @@ previewCanvas.addEventListener('mouseup', (e) => {
 
 previewCanvas.addEventListener('mouseleave', (e) => {
   resizeMode = null
+})
+
+uploadButton.addEventListener('click', () => {
+  fileInput.click()
 })
 
 cropButton.addEventListener('click', async () => {

@@ -14,6 +14,10 @@ body {
   color: #eaeaf0;
 }
 
+button {
+  cursor: pointer;
+}
+
 .app {
   display: flex;
   height: 100vh;
@@ -60,15 +64,24 @@ body {
   display: flex;
   gap: 12px;
   align-items: center;
+  margin-top: 10px;
 }
 
 .controls button {
   padding: 8px 16px;
   border: none;
-  border-radius: 6px;
-  background: #4f5dff;
+  border-radius: 2px;
+  background: #192077;
   color: white;
-  font-size: 14px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #232ca4;
+}
+
+.file-input-btn {
   cursor: pointer;
 }
 
