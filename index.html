@@ -34,6 +34,41 @@
       Copyright © 2017 - <span class="current-year">2026</span> Мирослав Гурняк
     </footer>
 
+    <div id="exportModal" class="modal hidden">
+      <div class="modal-content">
+        <h2>Export Options</h2>
+
+        <div class="option">
+          <label>
+            Resize (%):
+            <input
+              type="number"
+              id="resizePercent"
+              value="100"
+              min="10"
+              max="200"
+            />
+          </label>
+        </div>
+
+        <div class="option">
+          <label>
+            Format:
+            <select id="formatSelect">
+              <option value="image/png">PNG</option>
+              <option value="image/jpeg">JPEG</option>
+              <option value="image/webp">WEBP</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="modal-buttons">
+          <button id="cancelExport">Cancel</button>
+          <button id="confirmExport">Apply</button>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="script.js"></script>
   </body>
