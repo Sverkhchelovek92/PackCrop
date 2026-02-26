@@ -307,4 +307,8 @@ cropButton.addEventListener('click', async () => {
   // statusText.textContent = `Downloaded ${images.length} images as ZIP`
 })
 
+cancelExport.addEventListener('click', () => {
+  exportModal.classList.add('hidden')
+})
+
 document.querySelector('.current-year').textContent = new Date().getFullYear()
