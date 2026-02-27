@@ -330,4 +330,57 @@ cancelExport.addEventListener('click', () => {
   exportModal.classList.add('hidden')
 })
 
+async function exportZip(resizePercent, format) {
+  const zip = new JSZip()
+
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i].img
+
+    const tempCanvas = document.createElement('canvas')
+    const tempCtx = tempCanvas.getContext('2d')
+
+    // Размер обрезки
+    const croppedWidth = cropRect.width
+    const croppedHeight = cropRect.height
+
+    // Масштаб
+    const scale = resizePercent / 100
+
+    const finalWidth = Math.floor(croppedWidth * scale)
+    const finalHeight = Math.floor(croppedHeight * scale)
+
+    tempCanvas.width = finalWidth
+    tempCanvas.height = finalHeight
+
+    tempCtx.drawImage(
+      img,
+      cropRect.x,
+      cropRect.y,
+      croppedWidth,
+      croppedHeight,
+      0,
+      0,
+      finalWidth,
+      finalHeight,
+    )
+
+    const blob = await new Promise((resolve) =>
+      tempCanvas.toBlob(resolve, format, 0.9),
+    )
+
+    const extension = format.split('/')[1]
+
+    zip.file(`image_${i + 1}.${extension}`, blob)
+  }
+
+  const zipBlob = await zip.generateAsync({ type: 'blob' })
+
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(zipBlob)
+  link.download = 'cropped_images.zip'
+  link.click()
+
+  URL.revokeObjectURL(link.href)
+}
+
 document.querySelector('.current-year').textContent = new Date().getFullYear()
