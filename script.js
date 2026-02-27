@@ -9,6 +9,9 @@ const exportModal = document.getElementById('exportModal')
 const cancelExport = document.getElementById('cancelExport')
 const confirmExport = document.getElementById('confirmExport')
 
+const resizeInput = document.getElementById('resizePercent')
+const formatSelect = document.getElementById('formatSelect')
+
 const sidebar = document.getElementById('sidebar')
 
 const ctx = previewCanvas.getContext('2d')
@@ -310,6 +313,17 @@ cropButton.addEventListener('click', async () => {
   // link.click()
 
   // statusText.textContent = `Downloaded ${images.length} images as ZIP`
+})
+
+confirmExport.addEventListener('click', async () => {
+  if (!images.length) return
+
+  const resizePercent = parseInt(resizeInput.value) || 100
+  const format = formatSelect.value
+
+  exportModal.classList.add('hidden')
+
+  await exportZip(resizePercent, format)
 })
 
 cancelExport.addEventListener('click', () => {
