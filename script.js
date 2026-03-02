@@ -270,49 +270,6 @@ uploadButton.addEventListener('click', () => {
 cropButton.addEventListener('click', async () => {
   if (!images.length) return
   exportModal.classList.remove('hidden')
-
-  // statusText.textContent = 'Processing...'
-
-  // const zip = new JSZip()
-
-  // for (const item of images) {
-  //   const { img, file } = item
-
-  //   exportModal.classList.remove('hidden')
-
-  //   const tempCanvas = document.createElement('canvas')
-  //   const tempCtx = tempCanvas.getContext('2d')
-
-  //   tempCanvas.width = cropRect.width
-  //   tempCanvas.height = cropRect.height
-
-  //   tempCtx.drawImage(
-  //     img,
-  //     cropRect.x,
-  //     cropRect.y,
-  //     cropRect.width,
-  //     cropRect.height,
-  //     0,
-  //     0,
-  //     cropRect.width,
-  //     cropRect.height,
-  //   )
-
-  //   const blob = await new Promise((resolve) =>
-  //     tempCanvas.toBlob(resolve, 'image/png'),
-  //   )
-
-  //   zip.file(`cropped_${file.name}`, blob)
-  // }
-
-  // const zipBlob = await zip.generateAsync({ type: 'blob' })
-
-  // const link = document.createElement('a')
-  // link.href = URL.createObjectURL(zipBlob)
-  // link.download = 'packcrop_images.zip'
-  // link.click()
-
-  // statusText.textContent = `Downloaded ${images.length} images as ZIP`
 })
 
 confirmExport.addEventListener('click', async () => {
@@ -339,11 +296,9 @@ async function exportZip(resizePercent, format) {
     const tempCanvas = document.createElement('canvas')
     const tempCtx = tempCanvas.getContext('2d')
 
-    // Размер обрезки
     const croppedWidth = cropRect.width
     const croppedHeight = cropRect.height
 
-    // Масштаб
     const scale = resizePercent / 100
 
     const finalWidth = Math.floor(croppedWidth * scale)
